@@ -1,0 +1,17 @@
+{
+    "name": "bca/docker-jira-software",
+    "description": "Build JIRA Software Docker images",
+    "require": {
+        "guzzlehttp/guzzle": "^6.1",
+        "wp-cli/php-cli-tools": "^0.10.5",
+        "mustache/mustache": "^2.9"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ryan Brodkin",
+            "email": "ryan@brodkinca.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
