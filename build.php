@@ -24,10 +24,10 @@ $current_a = array_filter($current_a, function ($version) {
 
 $versions = [];
 foreach ($current_a as $version) {
-    $versions[$version['zipUrl']] = $version['version'];
+    $versions[$version['version']] = $version;
 }
 
-uasort($versions, 'version_compare');
+uksort($versions, 'version_compare');
 
 \cli\line(count($versions).' Versions Found:');
 $tree = new \cli\Tree();
@@ -35,13 +35,19 @@ $tree->setData($versions);
 $tree->setRenderer(new \cli\tree\Ascii);
 $tree->display();
 
-// Generate Dockerfile
+// Prepare for build
+$data = end($versions);
 $m = new Mustache_Engine;
-$dockerfile = $m->render(
-    file_get_contents('Dockerfile.tmpl'),
-    ['version' => end($versions), 'url' => key($versions)]
-);
 
+// Format release date
+$time = strtotime($data['released']);
+$data['released'] = date('F j, Y', $time);
+
+// Generate Dockerfile
+$dockerfile = $m->render(file_get_contents('Dockerfile.tmpl'), $data);
 file_put_contents('Dockerfile', $dockerfile);
+
+$readme = $m->render(file_get_contents('README.md.tmpl'), $data);
+file_put_contents('README.md', $readme);
 
 echo PHP_EOL.'Done!'.PHP_EOL;
