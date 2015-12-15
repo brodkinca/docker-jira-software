@@ -17,4 +17,4 @@ script:
 after_success:
   - export GIT_TAG=build-$TRAVIS_BUILD_NUMBER
   - git tag $GIT_TAG -a -m "TravisCI build $TRAVIS_BUILD_NUMBER"
-  - git push origin $GIT_TAG
+  - git push --force --tags "https://${GH_TOKEN}@${TRAVIS_REPO_SLUG}" $TRAVIS_BRANCH
