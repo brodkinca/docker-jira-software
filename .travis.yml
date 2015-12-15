@@ -12,7 +12,8 @@ before_script:
 script:
   - php build.php
   - docker build .
-  - git commit Dockerfile -m "TravisCI build $TRAVIS_BUILD_NUMBER on $(date -u "+%Y-%m-%d-%H-%M-%S")"
+  - git add Dockerfile
+  - git commit -m "TravisCI build $TRAVIS_BUILD_NUMBER on $(date -u "+%Y-%m-%d-%H-%M-%S")"
 after_success:
   - export GIT_TAG=build-$TRAVIS_BUILD_NUMBER
   - git tag $GIT_TAG -a -m "TravisCI build $TRAVIS_BUILD_NUMBER"
